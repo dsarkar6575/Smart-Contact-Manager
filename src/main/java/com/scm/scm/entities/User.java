@@ -48,8 +48,8 @@ public class User {
     @Column(name = "enable")
     private boolean enable = false;
 
-    private boolean emailVerified = false;
-    private boolean phoneVerified = false;
+    private boolean isEmailVerified = false;
+    private boolean isPhoneVerified = false;
 
     // SELF, GOOGLE, FACEBOOK, LINKEDIN, GITHUB, TWITTER
     private Provider provider = Provider.SELF;
