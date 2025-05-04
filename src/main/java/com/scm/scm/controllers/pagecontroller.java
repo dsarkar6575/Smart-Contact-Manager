@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.scm.scm.entities.User;
 import com.scm.scm.forms.UserForm;
+import com.scm.scm.helpers.Message;
+import com.scm.scm.helpers.MessageType;
 import com.scm.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class pagecontroller {
@@ -65,7 +69,7 @@ public class pagecontroller {
   }
 
   @RequestMapping(value="/do-register", method = RequestMethod.POST)
-  public String processRegister(@ModelAttribute UserForm userForm){
+  public String processRegister(@ModelAttribute UserForm userForm,HttpSession session){
     System.out.println("Process Register..");
 
     System.out.println(userForm);
@@ -75,18 +79,29 @@ public class pagecontroller {
     //save to database
     //message="Registration Successfull"
 
-    User user=User.builder()
-    .name(userForm.getName())
-    .email(userForm.getEmail())
-    .phoneNumber(userForm.getPhoneNumber())
-    .password(userForm.getPassword())
-    .about(userForm.getAbout())
-    .profilePic("https://media.licdn.com/media/AAYQAQSOAAgAAQAAAAAAAB-zrMZEDXI2T62PSuT6kpB6qg.png")
-    .build();
-
+    // User user=User.builder()
+    // .name(userForm.getName())
+    // .email(userForm.getEmail())
+    // .phoneNumber(userForm.getPhoneNumber())
+    // .password(userForm.getPassword())
+    // .about(userForm.getAbout())
+    // .profilePic("https://media.licdn.com/media/AAYQAQSOAAgAAQAAAAAAAB-zrMZEDXI2T62PSuT6kpB6qg.png")
+    // .build();
+    User user=new User();
+    user.setName(userForm.getName());
+    user.setAbout(userForm.getAbout());
+    user.setEmail(userForm.getEmail());
+    user.setPassword(userForm.getPassword());
+    user.setPhoneNumber(userForm.getPhoneNumber());
+    user.setProfilePic("https://media.licdn.com/media/AAYQAQSOAAgAAQAAAAAAAB-zrMZEDXI2T62PSuT6kpB6qg.png");
     User saveUser=userService.saveUser(user);
     System.out.println("User save;;;;");
+    
 
+    //Message ='registration successfull'
+    // add the message
+    Message message=Message.builder().content("Registration Successfull").type(MessageType.green).build();
+     session.setAttribute("message", message);
 
     //redirect to login page
 
