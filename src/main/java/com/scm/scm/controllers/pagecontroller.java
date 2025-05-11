@@ -23,7 +23,10 @@ public class pagecontroller {
 
   @Autowired
   private UserService userService;
-
+  @GetMapping("/")
+  public String index(){
+    return "redirect:/home";
+  }
   //Home controler  route
   @RequestMapping("/home")
   public String home(Model model){
@@ -52,7 +55,7 @@ public class pagecontroller {
     public String contactPage(){
       System.out.println("This is contact page..");
       return "contact";
-    }
+    } 
 
       //login controller route
   @GetMapping("/login")
