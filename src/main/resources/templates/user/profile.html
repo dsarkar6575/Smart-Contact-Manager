@@ -7,5 +7,8 @@
 </head>
 <body>
     <h1>This is Profile page...</h1>
+    <h1 data-th-text="${loggedinUser.name}"></h1>
+    <h1 data-th-text="${loggedinUser.email}"></h1>
+     <a data-th-href="@{'/do-logout'}">Logout</a>
 </body>
 </html>
