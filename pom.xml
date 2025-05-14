@@ -27,10 +27,8 @@
 		<url/>
 	</scm>
 	<properties>
-<<<<<<< HEAD
 		 <mainClass>com.scm.scm.ScmApplication</mainClass>
-=======
->>>>>>> 0ca250c2975d62cf65f5942e34fe50f60d04b410
+
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
