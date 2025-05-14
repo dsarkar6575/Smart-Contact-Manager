@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en"
 th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
@@ -15,5 +16,18 @@ th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
   <script>
     console.log("This  is profile page.");
   </script>
+=======
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <h1>This is Profile page...</h1>
+    <h1 data-th-text="${loggedinUser.name}"></h1>
+    <h1 data-th-text="${loggedinUser.email}"></h1>
+     <a data-th-href="@{'/do-logout'}">Logout</a>
+>>>>>>> 0ca250c2975d62cf65f5942e34fe50f60d04b410
 </body>
 </html>

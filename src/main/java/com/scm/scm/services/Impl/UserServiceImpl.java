@@ -85,4 +85,12 @@ public class UserServiceImpl implements UserService {
     return userRepos.findAll(); 
   }
 
+<<<<<<< HEAD
+=======
+  @Override
+  public User getUserByEmail(String email) {
+    return userRepos.findByEmail(email).orElseThrow(null);
+    }
+
+>>>>>>> 0ca250c2975d62cf65f5942e34fe50f60d04b410
 }
