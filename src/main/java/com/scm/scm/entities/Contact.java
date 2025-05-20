@@ -33,7 +33,7 @@ public class Contact {
   private String description;
   private boolean favorite=false;
   private String websiteLink;
-  private String linkedinLink;
+  private String linkedInLink;
 
   // private List<SocialLink> socialLinks=new ArrayList<>();
   
