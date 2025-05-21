@@ -21,10 +21,12 @@ public class ContactForm {
     @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "Email is required  ")
+    @Email(message = "Email should be valid")
     private String email;
 
     @NotBlank(message = "Phone Number is required")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone Number should be 10 digits")
     private String phoneNumber;
 
     @NotBlank(message = "Address is required")
