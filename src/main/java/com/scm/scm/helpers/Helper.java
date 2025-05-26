@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class Helper {
 
-  public static String getEmailLoggedUser(Authentication authentication){
+  public static String getEmailOfLoggedUser(Authentication authentication){
 
   
 

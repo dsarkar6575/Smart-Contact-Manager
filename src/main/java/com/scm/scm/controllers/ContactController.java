@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,6 +51,7 @@ public class ContactController {
     return "user/add_contact";
   }
 
+
   @RequestMapping(value = "/add",method = RequestMethod.POST)
   public String saveContact(@Valid @ModelAttribute ContactForm contactForm, BindingResult result, Authentication authentication, HttpSession session) {
 
@@ -62,7 +64,7 @@ public class ContactController {
       return "user/add_contact";
     }
     //process the form data
-    String userName=Helper.getEmailLoggedUser(authentication);
+    String userName=Helper.getEmailOfLoggedUser(authentication);
 
     //form-> contact
     User user=userService.getUserByEmail(userName);
@@ -96,4 +98,12 @@ public class ContactController {
     System.out.println(contactForm);
      return "redirect:/user/contact/add";
   }
+
+ @GetMapping("/contacts")
+    public String viewContacts(Model model, Authentication authentication) {
+        String userName = Helper.getEmailOfLoggedUser(authentication);
+        User user = userService.getUserByEmail(userName);
+        model.addAttribute("contact", contactService.getByUser(user));
+        return "user/contacts"; 
+    }
 }
