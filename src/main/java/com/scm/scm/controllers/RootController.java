@@ -27,7 +27,7 @@
           }
           
       System.out.println("this is model attribute..");
-        String username=Helper.getEmailLoggedUser(authentication);
+        String username=Helper.getEmailOfLoggedUser(authentication);
       logger.info("User login: {}",username);
       User user=userService.getUserByEmail(username);
 

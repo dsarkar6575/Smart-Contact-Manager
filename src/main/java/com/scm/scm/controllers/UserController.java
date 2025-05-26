@@ -1,5 +1,7 @@
 package com.scm.scm.controllers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.scm.scm.entities.Contact;
+import com.scm.scm.entities.User;
+import com.scm.scm.helpers.Helper;
+import com.scm.scm.services.ContactService;
 import com.scm.scm.services.UserService;
 
 
@@ -15,6 +21,9 @@ import com.scm.scm.services.UserService;
 @RequestMapping("/user")
 public class UserController {
   private Logger logger=LoggerFactory.getLogger(UserController.class);
+
+  @Autowired
+  private ContactService contactService;
 
   @Autowired
   private UserService userService;
@@ -37,6 +46,8 @@ public class UserController {
     return "user/profile";
   }
   //user view contacts
+
+
   //user edit contact
   //user delete contact
   //user search contact
