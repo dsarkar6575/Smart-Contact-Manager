@@ -21,9 +21,12 @@ public class Helper {
 
     //for signin with google user
     if(clientId.equalsIgnoreCase("google")){
+      
       System.out.println("Getting email from Google");
       username=oauth2User.getAttribute("email").toString();
     }else if(clientId.equalsIgnoreCase("github")){
+
+
      //for signin with github user
      System.out.println("Getting email from GitHub"); 
      username=oauth2User.getAttribute("email") !=null ? oauth2User.getAttribute("email") 
