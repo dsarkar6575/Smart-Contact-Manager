@@ -2,6 +2,7 @@ package com.scm.scm.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.scm.scm.entities.Contact;
@@ -25,6 +26,6 @@ public interface ContactService {
     //get contact by user id
     List<Contact> getByUserId(String userId);
 
-    List<Contact> getByUser(User user);
+    Page<Contact> getByUser(User user, int page, int size, String sortBy, String direction);
 
 }
