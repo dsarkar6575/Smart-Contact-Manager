@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.scm.scm.entities.Contact;
 import com.scm.scm.entities.User;
 import com.scm.scm.forms.ContactForm;
+import com.scm.scm.helpers.AppConstants;
 import com.scm.scm.helpers.Helper;
 import com.scm.scm.helpers.Message;
 import com.scm.scm.helpers.MessageType;
@@ -111,7 +112,8 @@ public class ContactController {
         String userName = Helper.getEmailOfLoggedUser(authentication);
         User user = userService.getUserByEmail(userName);
         Page<Contact> contactPage = contactService.getByUser(user, page, size, sortBy, direction);
-        model.addAttribute("contact", contactPage);
+        model.addAttribute("pageContact", contactPage);
+        model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
         return "user/contacts"; 
     }
 }

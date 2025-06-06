@@ -31,7 +31,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact update(Contact contact) {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
@@ -57,7 +57,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<Contact> search(String name, String email, String phone) {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'search'");
     }
 
@@ -68,9 +68,11 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Page<Contact> getByUser(User user, int page, int size, String sortBy, String direction) {
-        Sort sort=direction.equals("desc")? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
-        var pageable=PageRequest.of(page, size);
-       return contactRepos.findByUser(user, pageable);
+         Sort sort = direction.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+
+        var pageable = PageRequest.of(page, size, sort);
+
+        return contactRepos.findByUser(user, pageable);
     }
 
 }
