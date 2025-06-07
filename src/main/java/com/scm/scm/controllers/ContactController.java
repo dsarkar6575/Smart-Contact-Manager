@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.scm.scm.entities.Contact;
 import com.scm.scm.entities.User;
 import com.scm.scm.forms.ContactForm;
+import com.scm.scm.forms.ContactSearchForm;
 import com.scm.scm.helpers.AppConstants;
 import com.scm.scm.helpers.Helper;
 import com.scm.scm.helpers.Message;
@@ -114,6 +116,50 @@ public class ContactController {
         Page<Contact> contactPage = contactService.getByUser(user, page, size, sortBy, direction);
         model.addAttribute("pageContact", contactPage);
         model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
+        model.addAttribute("contactSearchForm", new ContactSearchForm());
+
         return "user/contacts"; 
     }
+
+
+   @RequestMapping("/search")
+public String searchHandler(
+        @ModelAttribute ContactSearchForm contactSearchForm,
+        @RequestParam(value = "size", defaultValue = AppConstants.PAGE_SIZE + "") int size,
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
+        @RequestParam(value = "direction", defaultValue = "asc") String direction,
+        Model model,
+        Authentication authentication) {
+
+    logger.info("Search field: {} | keyword: {}", contactSearchForm.getFields(), contactSearchForm.getValue());
+
+    var user = userService.getUserByEmail(Helper.getEmailOfLoggedUser(authentication));
+    Page<Contact> pageContact;
+
+    // Load default data if field or value is empty
+    if (contactSearchForm.getFields() == null || contactSearchForm.getFields().isBlank()
+            || contactSearchForm.getValue() == null || contactSearchForm.getValue().isBlank()) {
+        logger.info("No search input provided. Loading all contacts by default.");
+        pageContact = contactService.getByUser(user, page, size, sortBy, direction);
+    } else {
+        // Normal search logic
+        if (contactSearchForm.getFields().equalsIgnoreCase("name")) {
+            pageContact = contactService.searchByName(contactSearchForm.getValue(), size, page, sortBy, direction, user);
+        } else if (contactSearchForm.getFields().equalsIgnoreCase("email")) {
+            pageContact = contactService.searchByEmail(contactSearchForm.getValue(), size, page, sortBy, direction, user);
+        } else if (contactSearchForm.getFields().equalsIgnoreCase("phone")) {
+            pageContact = contactService.searchByPhoneNumber(contactSearchForm.getValue(), size, page, sortBy, direction, user);
+        } else {
+            pageContact = Page.empty(); // fallback
+        }
+    }
+
+    model.addAttribute("contactSearchForm", contactSearchForm);
+    model.addAttribute("pageContact", pageContact);
+    model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
+
+    return "user/search";
+}
+
 }
