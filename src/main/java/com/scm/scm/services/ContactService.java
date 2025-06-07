@@ -22,7 +22,13 @@ public interface ContactService {
     //get contact by id
     Contact getById(String id);
     //search contact 
-    List<Contact> search(String name, String email, String phone);
+    // search contact
+    Page<Contact> searchByName(String nameKeyword, int size, int page, String sortBy, String order, User user);
+
+    Page<Contact> searchByEmail(String emailKeyword, int size, int page, String sortBy, String order, User user);
+
+    Page<Contact> searchByPhoneNumber(String phoneNumberKeyword, int size, int page, String sortBy, String order,
+            User user);
     //get contact by user id
     List<Contact> getByUserId(String userId);
 
