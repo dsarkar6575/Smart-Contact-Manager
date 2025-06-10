@@ -61,3 +61,5 @@ function changePageTheme(theme, oldTheme) {
 }
 
 //change page change theme
+
+console.log("This is contacts.js loaded");

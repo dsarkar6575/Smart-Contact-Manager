@@ -104,23 +104,29 @@ public class ContactController {
      return "redirect:/user/contact/add";
   }
 
- @GetMapping("/contacts")
-    public String viewContacts(
-    @RequestParam(value="page" , defaultValue="0") int page,
-    @RequestParam(value = "size", defaultValue = "10") int size,
-    @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
-    @RequestParam(value = "direction", defaultValue = "asc") String direction
-    ,Model model, Authentication authentication) {
+   @RequestMapping("/contacts")
+public String viewContacts(
+    @RequestParam(value="page", defaultValue="0") int page,
+    @RequestParam(value="size", defaultValue="10") int size,
+    @RequestParam(value="sortBy", defaultValue="name") String sortBy,
+    @RequestParam(value="direction", defaultValue="asc") String direction,
+    Model model, Authentication authentication) {
+    
+    try {
         String userName = Helper.getEmailOfLoggedUser(authentication);
         User user = userService.getUserByEmail(userName);
         Page<Contact> contactPage = contactService.getByUser(user, page, size, sortBy, direction);
+        
         model.addAttribute("pageContact", contactPage);
         model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
         model.addAttribute("contactSearchForm", new ContactSearchForm());
-
-        return "user/contacts"; 
+        
+        return "user/contacts";
+    } catch (Exception e) {
+        logger.error("Error loading contacts", e);
+        return "error";
     }
-
+}
 
    @RequestMapping("/search")
 public String searchHandler(
@@ -132,23 +138,23 @@ public String searchHandler(
         Model model,
         Authentication authentication) {
 
-    logger.info("Search field: {} | keyword: {}", contactSearchForm.getFields(), contactSearchForm.getValue());
+    logger.info("Search field: {} | keyword: {}", contactSearchForm.getField(), contactSearchForm.getValue());
 
     var user = userService.getUserByEmail(Helper.getEmailOfLoggedUser(authentication));
     Page<Contact> pageContact;
 
     // Load default data if field or value is empty
-    if (contactSearchForm.getFields() == null || contactSearchForm.getFields().isBlank()
+    if (contactSearchForm.getField() == null || contactSearchForm.getField().isBlank()
             || contactSearchForm.getValue() == null || contactSearchForm.getValue().isBlank()) {
         logger.info("No search input provided. Loading all contacts by default.");
         pageContact = contactService.getByUser(user, page, size, sortBy, direction);
     } else {
         // Normal search logic
-        if (contactSearchForm.getFields().equalsIgnoreCase("name")) {
+        if (contactSearchForm.getField().equalsIgnoreCase("name")) {
             pageContact = contactService.searchByName(contactSearchForm.getValue(), size, page, sortBy, direction, user);
-        } else if (contactSearchForm.getFields().equalsIgnoreCase("email")) {
+        } else if (contactSearchForm.getField().equalsIgnoreCase("email")) {
             pageContact = contactService.searchByEmail(contactSearchForm.getValue(), size, page, sortBy, direction, user);
-        } else if (contactSearchForm.getFields().equalsIgnoreCase("phone")) {
+        } else if (contactSearchForm.getField().equalsIgnoreCase("phone")) {
             pageContact = contactService.searchByPhoneNumber(contactSearchForm.getValue(), size, page, sortBy, direction, user);
         } else {
             pageContact = Page.empty(); // fallback

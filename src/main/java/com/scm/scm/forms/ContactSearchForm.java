@@ -6,6 +6,6 @@
     @Getter
     @Setter
     public class ContactSearchForm {
-    private String fields;
+    private String field;
     private String value;
     }
