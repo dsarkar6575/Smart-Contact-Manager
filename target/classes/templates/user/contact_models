@@ -1,4 +1,4 @@
-<div data-th-fragment="contact">
+<div data-th-fragment="contacts_container">
 
 
 <!-- Modal toggle -->
