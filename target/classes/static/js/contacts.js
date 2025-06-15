@@ -1,4 +1,5 @@
 console.log("Contacts.js");
+// const baseURL = "http://localhost:8081";
 const baseURL = "https://www.scm20.site";
 const viewContactModal = document.getElementById("view_contact_modal");
 
@@ -41,7 +42,7 @@ async function loadContactdata(id) {
   //function call to load data
   console.log(id);
   try {
-    const data = await (await fetch(`${baseURL}/api/contact/${id}`)).json();
+    const data = await (await fetch(`${baseURL}/api/contacts/${id}`)).json();
     console.log(data);
     document.querySelector("#contact_name").innerHTML = data.name;
     document.querySelector("#contact_email").innerHTML = data.email;
@@ -76,7 +77,7 @@ async function deleteContact(id) {
     showCancelButton: true,
     confirmButtonText: "Delete",
   }).then((result) => {
-
+    /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
       const url = `${baseURL}/user/contacts/delete/` + id;
       window.location.replace(url);
